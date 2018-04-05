@@ -1,0 +1,50 @@
+# Dossier contenant les vcf.
+vcf_folder_name: vcf
+
+# Sera le dossier de sortie (variable to_import_dir)
+cancer_study_identifier: lung_study100
+
+# Pointe vers un ou plusieur fichier texte
+# exemples:
+# colon: NGS colon-lung échantillons COLONS_anapath.txt
+# lung: NGS colon-lung échantillons POUMONS_anapath.txt
+study:
+    - data/NGS COLONS_colon-lung échantillons anapath_cleaned_nodups_sorted.txt
+
+# Dépendance du script
+anapath_patient: anapathpatientid.txt.csv
+
+case_list:
+    name: nom de case liste
+    description: description de case liste
+
+meta_study:
+    # lung: nsclc, colon: coadread
+    type_of_cancer: 'nsclc'
+    description: ~ 
+    short_name: colung
+    add_global_case_list: true
+
+meta_samples:
+    # cancer_study_identifier: ne pas décommenter si possible 
+    genetic_alteration_type: CLINICAL
+    datatype: SAMPLE_ATTRIBUTES
+    data_filename: data_samples.txt
+
+meta_patients:
+    # cancer_study_indentifier: ne pas décommenter si possible
+    genetic_alteration_type: CLINICAL
+    datatype: PATIENT_ATTRIBUTES
+    data_filename: data_patients.txt
+
+meta_mutations_extended:
+    # cancer_study_indentifier: ne pas décommenter si possible
+    genetic_alteration_type: MUTATION_EXTENDED
+    datatype: MAF
+    stable_id: mutations
+    show_profile_in_analysis_tab: true
+    profile_name: Mutations
+    profile_description: Mutation description truc bidul
+    data_filename: mutations.maf
+    swissprot_identifier: name
+
