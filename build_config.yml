@@ -2,17 +2,17 @@
 vcf_folder_name: vcf
 
 # Sera le dossier de sortie (variable to_import_dir)
-cancer_study_identifier: lung_study100
+cancer_study_identifier: test_cbio
 
 # Pointe vers un ou plusieur fichier texte
 # exemples:
 # colon: NGS colon-lung échantillons COLONS_anapath.txt
 # lung: NGS colon-lung échantillons POUMONS_anapath.txt
 study:
-    - data/NGS COLONS_colon-lung échantillons anapath_cleaned_nodups_sorted.txt
+    - data/test/list_anapath.txt
 
 # Dépendance du script
-anapath_patient: anapathpatientid.txt.csv
+anapath_patient: corresp_patientid_anapath09-11-17.csv
 
 case_list:
     name: nom de case liste
@@ -22,6 +22,7 @@ meta_study:
     # lung: nsclc, colon: coadread
     type_of_cancer: 'nsclc'
     description: ~ 
+    name: ~
     short_name: colung
     add_global_case_list: true
 

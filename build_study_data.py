@@ -131,7 +131,6 @@ def use_vcf2maf(in_dir, out_dir, vcf_folder_path, tumor_map):
     shutil.copytree(os.path.join(in_dir, vcf_folder_name),
         os.path.join(volume_path, vcf_folder_name))
 
-
     # Transmission du mapping des TUMOR_BARCODE par fichier .csv
     with open(os.path.join(volume_path, 'tumor_barcode_map.tsv'), 'w') as csvfile:
         header = ['filename', 'tumor_barcode']
@@ -139,7 +138,6 @@ def use_vcf2maf(in_dir, out_dir, vcf_folder_path, tumor_map):
         writer.writeheader()
         for filename in tumor_map:
             writer.writerow({'filename': filename, 'tumor_barcode': tumor_map[filename]})
-
 
     # Il sagit des path une fois dans le conteneur
     map_path = os.path.join(os.sep, 'data', 'tumor_barcode_map.tsv')
@@ -150,7 +148,6 @@ def use_vcf2maf(in_dir, out_dir, vcf_folder_path, tumor_map):
     # Création de fichier d'annotation à partir des fichiers .vcf du dossier trio
     # Le dossier 'temp_maf_dir', ressemblant les .maf avant merge, est créé dans le volume du conteneur
     vcf2maf_vol = volume_path + ':/data'
-
 
     cmd = "docker run -it --rm -v {} -v {} vcf2maf --input-vcf {} --output-maf {}" \
           " --tumor-barcode-map {} -d --merge-maf".format(vep_vol,
@@ -170,7 +167,12 @@ def write_meta_files(to_import_dir, config):
     with open(os.path.join(to_import_dir, 'meta_study.txt'), 'wb') as f:
         f.write('type_of_cancer: {}\n'.format(config['meta_study']['type_of_cancer']))
         f.write('cancer_study_identifier: {}\n'.format(config['cancer_study_identifier']))
-        f.write('name: {}\n'.format(to_import_dir))
+        try:
+            name = config['meta_study']['name']
+        except Exception:
+            f.write('name: {}\n'.format(os.path.basename(to_import_dir)))
+        else:
+            f.write('name: {}\n'.format(name))
         f.write('description: {}\n'.format(config['meta_study']['description']))
         f.write('short_name: {}\n'.format(config['meta_study']['short_name']))
         f.write('add_global_case_list: {}\n'.format(config['meta_study']['add_global_case_list']))
