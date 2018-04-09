@@ -9,7 +9,10 @@ Voir la documentation offichielle: [cbioportal/File-Format](http://cbioportal.re
 
 Le script build_study_data.py construit l'arborescence de fichiers d'importation i.e. le dossier contenant les study data.
 
-Donner en entrée, après l'argument --in-dir, le chemin du dossier contenant les fichiers .vcf à importer dans cBioportal.
+Le dossier donné par --in-dir doit contenir:
+- le fichier de mapping n° anapath  / n° patient
+- les fichiers listant les n° anapath de la study
+- Un dossier contenant les .vcf, le nom de ce dossier est donné dans build_config.yml
 
 Le script utilise le fichier de configuration build_config.yml. Le build_config.yml fournit par
 le dépot dans bitbucket est un exemple.

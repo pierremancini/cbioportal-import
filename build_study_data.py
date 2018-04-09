@@ -102,7 +102,7 @@ def make_dict_samples(selected_anapath):
     dict_samples = {}
 
     with open(os.path.join(in_dir, config['anapath_patient'])) as f:
-        reader = csv.reader(f, delimiter=';')
+        reader = csv.reader(f, delimiter=',')
         for line in reader:
             line[0] = line[0].translate(None, ' ')
             # {patient_id: [sample_id]}
@@ -210,7 +210,12 @@ if __name__ == '__main__':
         -  Le dossier de sortie du script filter_trio.py "new_vcf" que l'on renomera vcf
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument('--in-dir')
+
+    # Le dossier donné par --in-dir doit contenir:
+    #   - le fichier de mapping n° anapath  / n° patient
+    #   - les fichiers listant les n° anapath de la study
+    #   - Un dossier contenant les .vcf, le nom de ce dossier est donné dans build_config.yml
+    parser.add_argument('--in-dir', help='Directory containing: vcf directory, mapping files')
     parser.add_argument('--out-dir')
     parser.add_argument("--report", action='store_true',
      help="Get a HTML report cbioportal validation in curent directory")
