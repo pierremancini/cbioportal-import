@@ -104,7 +104,7 @@ if __name__ == '__main__':
         print(outs)
 
     # Suppression de l'ancienne study sur k2so noeud maitre
-    print('Nétoyage du noeud maitre: rm dossier {} sur {}'.format(Bcolors.OKBLUE + study_name + Bcolors.ENDC,
+    print('Nétoyage sur le noeud maitre: rm dossier {} sur {}'.format(Bcolors.OKBLUE + study_name + Bcolors.ENDC,
         Bcolors.OKBLUE + k2so_login + ':' + study_path_masternode + Bcolors.ENDC))
 
     # Rien sur le noeud maitre
