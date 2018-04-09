@@ -14,6 +14,16 @@ Donner en entrée, après l'argument --in-dir, le chemin du dossier contenant le
 Le script utilise le fichier de configuration build_config.yml. Le build_config.yml fournit par
 le dépot dans bitbucket est un exemple.
 
+### Configurer avec build_config.yml
+
+Configurer la construction des données d'importation en modifiant build_config.yml.
+
+- Pour préciser le type de cancer, changer la valeur de meta_study/type_of_cancer
+
+Exemples: coadread pour colon, nsclc pour lung.
+
+- Le(s) fichier(s) listés dans study donne les n° d'échantillons fesant partie de la study. 
+
 
 ### Conversion des .vcf en .maf
 
@@ -69,15 +79,29 @@ Copie joeud maitre -> noeud de virtualisation
 cd /scratch/pmancini
 scp -r {study_name} root@kvm01:/data/dockerbuilds/cbioportal/studies/{study_name}
 ```
+
+Nb: Avant de lancer les commandes de transfert il peut-être important de de vérifier qu'il n'existe
+pas de dossier portant le même que le dossier study courant sur les noeuds k2so car les scp semble 
+le ne pas réaliser d'overwrite en cas d'homonymes. scp n'affiche aucun warning en cas d'homonymes.
+
 __ou__
 
-1')  utiliser le script python qui wrap l'utilisations des commandes de transfert:
+1')  Utiliser le script python qui wrap l'utilisations des commandes de transfert:
 
 ```python
 python3 transfer_study.py --study-path {}
 ```
 
+Le script transfer_study.py écrase les anciens dossiers portant le même nom que le dossier
+study courant.
+
+
 2) Commande dans le conteneur
+
+
+Une fois dans root@kvm01:/data/dockerbuilds/cbioportal/studies/ le dossier study pourra être monté
+automatiquement dans le conteneur car /data/dockerbuilds/cbioportal/studies/ est un volume du conteneur
+[Volumes docker](https://docs.docker.com/storage/volumes/#choose-the--v-or---mount-flag).
 
 Lancement du conteneur:
 ```bash
@@ -92,6 +116,20 @@ cd /
 
 ### Récupération du raport d'importation
 
+Utiliser le script python:
+
+```python
+python3 transfer_reports.py --reports-path {}
+```
 
 ### Suppression de study dans cBioportal
 
+L'arborescence du dossier d'importation contient un fichier meta_study.txt
+
+On utilise ce fichier meta_study qui doit être situé dans conteneur:
+
+```bash
+./cbioportal/core/src/main/scripts/importer/cbioportalImporter.py --command remove-study --meta_filename /cbio_studies/lung_study_listes/meta_study.txt
+```
+
+Nb: la commande avec --jvm-args ne marche pas : [https://github.com/cBioPortal/cbioportal/issues/132](https://github.com/cBioPortal/cbioportal/issues/132)
