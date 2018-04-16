@@ -18,7 +18,7 @@ from pprint import pprint
 
     Exemple d'utilisation:
 
-    python build_study_data.py --in-dir in_build_study --out-maf dev_test
+    python build_study_data.py --in-dir in_build_study --out-dir dev_test
 
 """
 
