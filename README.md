@@ -132,7 +132,7 @@ L'arborescence du dossier d'importation contient un fichier meta_study.txt
 On utilise ce fichier meta_study qui doit être situé dans conteneur:
 
 ```bash
-./cbioportal/core/src/main/scripts/importer/cbioportalImporter.py --command remove-study --meta_filename /cbio_studies/lung_study_listes/meta_study.txt
+./cbioportal/core/src/main/scripts/importer/cbioportalImporter.py --command remove-study --meta_filename /cbio_studies/{study_name}/meta_study.txt
 ```
 
 Nb: la commande avec --jvm-args ne marche pas : [https://github.com/cBioPortal/cbioportal/issues/132](https://github.com/cBioPortal/cbioportal/issues/132)
