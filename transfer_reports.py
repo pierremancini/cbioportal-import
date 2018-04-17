@@ -59,7 +59,7 @@ if __name__ == '__main__':
     # Dev: La commande utilisé pour l'importation
     importation = './cbioportal/core/src/main/scripts/importer/metaImport.py -s '
     '/cbio_studies/lung_study_listes/ -o -u http://localhost:8080/cbioportal -v -html'
-    ' /scratch/pmancini/cbioportal/reports/myReportlunglistes.html'
+    ' /cbio_studies/myReportlunglistes.html'
 
     # Working directory = dossier reports
     local_wd = path.join(*path.normpath(reports_local_path).split('/')[:-1])

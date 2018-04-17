@@ -114,7 +114,7 @@ docker exec -it cbioportal /bin/bash
 Lancement du script d'importation de l'instance cBioportal:
 ```bash
 cd /
-./cbioportal/core/src/main/scripts/importer/metaImport.py -s /cbio_studies/{study_name}/ -o -u http://localhost:8080/cbioportal -v -html /scratch/pmancini/cbioportal/reports/{report_name}.html
+./cbioportal/core/src/main/scripts/importer/metaImport.py -s /cbio_studies/{study_name}/ -o -u http://localhost:8080/cbioportal -v -html /cbio_studies/{report_name}.html
 ```
 
 ### Récupération du raport d'importation
