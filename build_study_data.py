@@ -11,7 +11,7 @@ import time
 # DEV
 import IPython.core.ultratb
 from pprint import pprint
-# sys.excepthook = IPython.core.ultratb.ColorTB()
+sys.excepthook = IPython.core.ultratb.ColorTB()
 
 
 """ Ce script créé les metadata et data à insérer dans cbioportal
@@ -288,14 +288,21 @@ if __name__ == '__main__':
 
         for patient_id in dict_samples:
 
-            fpatients.write(patient_id + "\t" + to_import_dir + "\n")
+            fpatients.write(patient_id + "\t" + config['cancer_study_identifier'] + "\n")
 
             for sample_id in dict_samples[patient_id]:
-                fsamples.write(patient_id + "\t" + sample_id + "\n")
-                case_list_ids.append(sample_id)
+                sample_id_set = set(sample_id)
+                if len(sample_id_set) > 1:
+                    print('Warning: The patient_id {} is associated with more than one sample_id'.format(patient_id))
+                    for sample_id_str in sample_id_set:
+                        fsamples.write(patient_id + "\t" + sample_id_str + "\n")
+                        case_list_ids.append(sample_id_str)
+                else:
+                    fsamples.write(patient_id + "\t" + sample_id_set[0] + "\n")
+                    case_list_ids.append(sample_id_set[0])
 
-        fcases.write("cancer_study_identifier: {}\n".format(to_import_dir))
-        fcases.write("stable_id: {}_custom\n".format(to_import_dir))
+        fcases.write("cancer_study_identifier: {}\n".format(config['cancer_study_identifier']))
+        fcases.write("stable_id: {}_custom\n".format(config['cancer_study_identifier']))
         fcases.write("case_list_name: {}\n".format(config['case_list']['name']))
         fcases.write("case_list_description: {}\n".format(config['case_list']['description']))
         fcases.write("case_list_ids: ")
