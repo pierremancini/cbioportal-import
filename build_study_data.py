@@ -11,7 +11,7 @@ import time
 # DEV
 import IPython.core.ultratb
 from pprint import pprint
-sys.excepthook = IPython.core.ultratb.ColorTB()
+# sys.excepthook = IPython.core.ultratb.ColorTB()
 
 
 """ Ce script créé les metadata et data à insérer dans cbioportal
@@ -270,7 +270,7 @@ if __name__ == '__main__':
     os.mkdir(to_import_dir)
 
     # ~~~~ Partie mutation ~~~~
-    use_vcf2maf(args.out_dir, os.path.join(to_import_dir, 'mutations.maf'), selected_samples_path, tumor_map)
+    # use_vcf2maf(args.out_dir, os.path.join(to_import_dir, 'mutations.maf'), selected_samples_path, tumor_map)
     # -> output un .maf dans le dossier à importer: ($to_import_dir/'temp_maf_dir')
 
     # ~~~~ Partie data ~~~~
@@ -290,16 +290,12 @@ if __name__ == '__main__':
 
             fpatients.write(patient_id + "\t" + config['cancer_study_identifier'] + "\n")
 
+            if len(set(dict_samples[patient_id])) > 1:
+                print('Warning: un patient_id: {} est lié à plus de un sample_id'.format(patient_id))
+
             for sample_id in dict_samples[patient_id]:
-                sample_id_set = set(sample_id)
-                if len(sample_id_set) > 1:
-                    print('Warning: The patient_id {} is associated with more than one sample_id'.format(patient_id))
-                    for sample_id_str in sample_id_set:
-                        fsamples.write(patient_id + "\t" + sample_id_str + "\n")
-                        case_list_ids.append(sample_id_str)
-                else:
-                    fsamples.write(patient_id + "\t" + sample_id_set[0] + "\n")
-                    case_list_ids.append(sample_id_set[0])
+                fsamples.write(patient_id + "\t" + sample_id + "\n")
+                case_list_ids.append(sample_id)
 
         fcases.write("cancer_study_identifier: {}\n".format(config['cancer_study_identifier']))
         fcases.write("stable_id: {}_custom\n".format(config['cancer_study_identifier']))
