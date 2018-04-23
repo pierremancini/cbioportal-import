@@ -297,8 +297,11 @@ if __name__ == '__main__':
 
             if len(set(dict_samples[patient_id])) > 1:
                 print('Warning: un patient_id: {} est lié à plus de un sample_id'.format(patient_id))
-
-            for sample_id in dict_samples[patient_id]:
+                for sample_id in dict_samples[patient_id]:
+                    fsamples.write(patient_id + "\t" + sample_id + "\n")
+                    case_list_ids.append(sample_id)
+            else:
+                sample_id = dict_samples[patient_id][0]
                 fsamples.write(patient_id + "\t" + sample_id + "\n")
                 case_list_ids.append(sample_id)
 
