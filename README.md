@@ -98,6 +98,9 @@ python3 transfer_study.py --study-path {}
 Le script transfer_study.py écrase les anciens dossiers portant le même nom que le dossier
 study courant.
 
+Nb: La copie automatique des fichiers partagé dans le volume du conteneur présente un bug quand un 
+fichier est changer tout en gardant le même nom.
+
 
 2) Commande dans le conteneur
 
