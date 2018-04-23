@@ -102,6 +102,11 @@ def make_dict_samples(selected_anapath):
     dict_samples = {}
 
     with open(os.path.join(in_dir, config['anapath_patient'])) as f:
+
+        # Dans le fichier de configuration de correspondance 'anapath_patient', la 1er colonne 
+        # correspond aux n° anapath/sample_id, la 2em colonne correspond aux patient_id
+
+
         reader = csv.reader(f, delimiter=',')
         for line in reader:
             line[0] = line[0].translate(None, ' ')
