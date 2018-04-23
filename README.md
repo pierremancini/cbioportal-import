@@ -119,6 +119,12 @@ cd /
 
 ### Récupération du raport d'importation
 
+1) Transférer le report du noeud de virtualisation vers le noeud maitre:
+
+scp -r root@kvm01:/data/dockerbuilds/cbioportal/studies/{report_name} /scratch/pmancini/cbioportal/reports/{report_name}
+
+2) Transferer le report du scratch du noeud matire en local:
+
 Utiliser le script python:
 
 ```python
