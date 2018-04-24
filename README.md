@@ -120,6 +120,21 @@ cd /
 ./cbioportal/core/src/main/scripts/importer/metaImport.py -s /cbio_studies/{study_name}/ -o -u http://localhost:8080/cbioportal -v -html /cbio_studies/{report_name}.html
 ```
 
+3) Redémarer le conteneur:
+
+Sur le noeud de virtualisation
+
+```bash
+docker stop cbioportal
+docker start cbioportal
+```
+
+
+### Update d'une study
+
+Pour modifier une study on peut utiliser la procédure d'importation classique sans options supplémentaires.
+
+
 ### Récupération du raport d'importation
 
 1) Transférer le report du noeud de virtualisation vers le noeud maitre:
