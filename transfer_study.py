@@ -13,6 +13,7 @@ import yaml
 import os.path as path
 from bcolors import Bcolors
 import time
+import os
 
 
 def args():
@@ -90,9 +91,31 @@ if __name__ == '__main__':
         print(outs)
 
     # Copie depuis le noeud maitre vers le noeud de virtualisation
-    cmd = ['cd {}'.format(study_path_masternode),
+
+    # Ecrassement artificiel de la study pour qu'elle puisse se mettre à jour correctement
+    # dans le volume du conteneur.
+    # L'inode du dossier study change à chaque transfert scp. Le dossier monté est défini par
+    # sont inode (qui à changé) et non par sont path (qui lui ne change pas).
+    # cf. https://github.com/moby/moby/issues/15793
+
+    # Commande de suppression de l'ancienne study doit être appart et pas dans la chaine de commande bash qui suit
+    # Le suppression de l'ancien dossier study permet de supprimer avec le bind-mount qui sera recréer
+    # avec le scp qui suit.
+    sub_string = 'rm -fr {}'.format(os.path.join(study_path_virtualnode, study_name))
+    cmd = ['ssh root@kvm01 \'{}\''.format(sub_string)]
+    outs, errs = ssh_k2so(cmd, k2so_login)
+    if errs:
+        print(outs)
+        print('Error copy from master node:')
+        print(errs)
+    else:
+        print(outs)
+
+    cmd = [
+        'cd {}'.format(study_path_masternode),
         'scp -r {name} root@kvm01:{virtual}{name}'.format(name=study_name, virtual=study_path_virtualnode)
     ]
+
 
     outs, errs = ssh_k2so(cmd, k2so_login)
 
