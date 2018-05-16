@@ -5,7 +5,7 @@
 
 Pour importer les fichiers .maf dans cBioportal il faut les organiser dans des dossiers spécifiques et les accompagner de fichiers de métadonnées.
 
-Voir la documentation offichielle: [cbioportal/File-Format](http://cbioportal.readthedocs.io/en/latest/File-Formats.html)
+Voir la documentation officielle: [cbioportal/File-Format](http://cbioportal.readthedocs.io/en/latest/File-Formats.html)
 
 Le script build_study_data.py construit l'arborescence de fichiers d'importation i.e. le dossier contenant les study data.
 
@@ -25,7 +25,7 @@ Configurer la construction des données d'importation en modifiant build_config.
 
 Exemples: coadread pour colon, nsclc pour lung.
 
-- Le(s) fichier(s) listés dans study donne les n° d'échantillons fesant partie de la study. 
+- Les fichiers listés dans study donne les n° d'échantillons fesant partie de la study. 
 
 
 ### Conversion des .vcf en .maf
@@ -128,7 +128,6 @@ Sur le noeud de virtualisation
 docker stop cbioportal
 docker start cbioportal
 ```
-
 
 ### Update d'une study
 
