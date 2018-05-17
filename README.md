@@ -138,11 +138,6 @@ docker stop cbioportal
 docker start cbioportal
 ```
 
-### Update d'une study
-
-Pour modifier une study on peut utiliser la procédure d'importation classique sans options supplémentaires.
-
-
 ### Récupération du raport d'importation
 
 1) Transférer le report du noeud de virtualisation vers le noeud maitre:
@@ -169,3 +164,8 @@ cd /
 ```
 
 Nb: la commande avec --jvm-args ne marche pas : [https://github.com/cBioPortal/cbioportal/issues/132](https://github.com/cBioPortal/cbioportal/issues/132)
+
+
+### Update d'une study
+
+cBioportal ne possède pas d'option de mise à jour des study. Il faut donc supprimé la study en question pour en importé la nouvelle version mise à jour.
