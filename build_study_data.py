@@ -172,12 +172,11 @@ def write_meta_files(to_import_dir, config):
     with open(os.path.join(to_import_dir, 'meta_study.txt'), 'wb') as f:
         f.write('type_of_cancer: {}\n'.format(config['meta_study']['type_of_cancer']))
         f.write('cancer_study_identifier: {}\n'.format(config['cancer_study_identifier']))
-        try:
+        name = config['meta_study']['name']
+        if name:
             name = config['meta_study']['name']
-        except Exception:
-            f.write('name: {}\n'.format(os.path.basename(to_import_dir)))
         else:
-            f.write('name: {}\n'.format(name))
+            f.write('name: {}\n'.format(os.path.basename(to_import_dir)))
         f.write('description: {}\n'.format(config['meta_study']['description']))
         f.write('short_name: {}\n'.format(config['meta_study']['short_name']))
         f.write('add_global_case_list: {}\n'.format(config['meta_study']['add_global_case_list']))
@@ -275,7 +274,7 @@ if __name__ == '__main__':
     os.mkdir(to_import_dir)
 
     # ~~~~ Partie mutation ~~~~
-    # use_vcf2maf(args.out_dir, os.path.join(to_import_dir, 'mutations.maf'), selected_samples_path, tumor_map)
+    use_vcf2maf(args.out_dir, os.path.join(to_import_dir, 'mutations.maf'), selected_samples_path, tumor_map)
     # -> output un .maf dans le dossier à importer: ($to_import_dir/'temp_maf_dir')
 
     # ~~~~ Partie data ~~~~
