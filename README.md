@@ -155,6 +155,7 @@ L'arborescence du dossier d'importation contient un fichier meta_study.txt
 On utilise ce fichier meta_study qui doit être situé dans conteneur:
 
 ```bash
+cd /
 ./cbioportal/core/src/main/scripts/importer/cbioportalImporter.py --command remove-study --meta_filename /cbio_studies/{study_name}/meta_study.txt
 ```
 
