@@ -14,6 +14,13 @@ Le dossier donné par --in-dir doit contenir:
 - les fichiers listant les n° anapath de la study
 - Un dossier contenant les .vcf, le nom de ce dossier est donné dans build_config.yml
 
+Le script créer en sortie le dossier --out-dir composé de trois sous dossier:
+- no-study: contient les .vcf écartés de la study
+- selected_samples: contient les .vcf selectionné dans la study
+- Le dossier de study même qui devra être transféré dans le conteneur cbioportal (cf. section Commandes d'importation, suppression et rapport d'importation).
+Le nom du dossier de study est donné par le fichier de configuration build_config.yml.
+
+
 Le script utilise le fichier de configuration build_config.yml. Le build_config.yml fournit par
 le dépot dans bitbucket est un exemple.
 
@@ -25,7 +32,9 @@ Configurer la construction des données d'importation en modifiant build_config.
 
 Exemples: coadread pour colon, nsclc pour lung.
 
-- Les fichiers listés dans study donne les n° d'échantillons fesant partie de la study. 
+- Les fichiers listés dans study donne les n° d'échantillons fesant partie de la study.
+
+- meta_study: name: correspond au nom de study affiché dans l'interface web
 
 
 ### Conversion des .vcf en .maf
