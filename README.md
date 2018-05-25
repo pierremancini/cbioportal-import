@@ -17,8 +17,11 @@ le dépot dans bitbucket est un exemple.
 - Lancer un conteneur de vcf2maf, cf. [documentation vcf2maf](https://bitbucket.org/bergomultipli/vcf2maf/src/default/).
 
 - Préparer le dossier dont le chemin sera donné dans l'argument --in-dir du script. Le dossier doit contenir:
+
 1) Les fichiers listant les n° anapath de la study. Dans ses fichiers on doit avoir un n° anapath par ligne. Nb: Les noms de ces fichiers doivent être dans le fichier de configuration.
+
 2) Le fichier de mapping n° anapath  / n° patient. Doit être un fichier .csv avec en 1er colone le n° anapath et en 2ème colone le n° patient.
+
 3) Un dossier contenant les .vcf. Par default le nom de ce dossier est vcf, il peut être changé dans le fichier de configuration.
 
 
