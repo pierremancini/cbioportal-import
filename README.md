@@ -9,35 +9,62 @@ Voir la documentation officielle: [cbioportal/File-Format](http://cbioportal.rea
 
 Le script build_study_data.py construit l'arborescence de fichiers d'importation i.e. le dossier contenant les study data.
 
-Le dossier donné par --in-dir doit contenir:
-- le fichier de mapping n° anapath  / n° patient
-- les fichiers listant les n° anapath de la study
-- Un dossier contenant les .vcf, le nom de ce dossier est donné dans build_config.yml
-
-Le script créer en sortie le dossier --out-dir composé de trois sous dossier:
-- no-study: contient les .vcf écartés de la study
-- selected_samples: contient les .vcf selectionné dans la study
-- Le dossier de study même qui devra être transféré dans le conteneur cbioportal (cf. section Commandes d'importation, suppression et rapport d'importation).
-Le nom du dossier de study est donné par le fichier de configuration build_config.yml.
-
-
 Le script utilise le fichier de configuration build_config.yml. Le build_config.yml fournit par
 le dépot dans bitbucket est un exemple.
+
+### Installation
+
+- Lancer un conteneur de vcf2maf, cf. [documentation vcf2maf](https://bitbucket.org/bergomultipli/vcf2maf/src/default/).
+
+- Préparer le dossier dont le chemin sera donné dans l'argument --in-dir du script. Le dossier doit contenir:
+1) Les fichiers listant les n° anapath de la study. Dans ses fichiers on doit avoir un n° anapath par ligne. Nb: Les noms de ces fichiers doivent être dans le fichier de configuration.
+2) Le fichier de mapping n° anapath  / n° patient. Doit être un fichier .csv avec en 1er colone le n° anapath et en 2ème colone le n° patient.
+3) Un dossier contenant les .vcf. Par default le nom de ce dossier est vcf, il peut être changé dans le fichier de configuration.
+
 
 ### Configurer avec build_config.yml
 
 Configurer la construction des données d'importation en modifiant build_config.yml.
 
-- Pour préciser le type de cancer, changer la valeur de meta_study/type_of_cancer
+- Préciser le type de cancer. Changer la valeur de meta_study: type_of_cancer: [type of cancer](http://oncotree.mskcc.org/#/home)
 
 Exemples: coadread pour colon, nsclc pour lung.
 
-- Les fichiers listés dans study donne les n° d'échantillons fesant partie de la study.
+- Dans le champ study: donner les noms des fichiers listant les n° anapath de la study.
 
-- meta_study: name: correspond au nom de study affiché dans l'interface web
+- Le champ anapath_patient: donner le nom du fichier de mapping n° anapath  / n° patient.
 
 
-### Conversion des .vcf en .maf
+#### Configurations optionnelles:
+
+- vcf_folder_name: Le nom du dossier contenant les .vcf
+
+- meta_study: name: correspond au nom de study affiché dans l'interface web.
+
+- Le nom du dossier de study est donné par le fichier de configuration build_config.yml.
+
+- Pour les champs meta_study, meta_samples, meta_patients et meta_mutations_extended servent à changer le contenu des fichier de meta données de la study.
+Avant de les changer il faut lire la documentation de cbioportal à propos du format des fichiers de la study: [doc](https://cbioportal.readthedocs.io/en/latest/File-Formats.html#clinical-data).
+
+### Usage
+
+```
+python3 build_study_data.py --in-dir IN_DIR --out-dir OUT_DIR [-c CONFIG] [--mv]
+```
+
+Le script créer en sortie le dossier OUT_DIR, composé de trois sous-dossiers:
+- no-study: contient les .vcf écartés de la study.
+- selected_samples: contient les .vcf selectionnés dans la study.
+- Le dossier de study. Nb: Ce dossier devra être transféré dans le conteneur cbioportal pour pouvoir l'importer dans l'instance cBioportal (cf. section Commandes d'importation, suppression et rapport d'importation).
+
+L'option -c permet spécifier le chemin du fichier de configuration. Par défault le fichier build_config.yml situe au même niveau que le script sera utilisé.
+
+L'option --mv permet de faire un backup de l'ancienne study en cas de conflit de nom avec la nouvelle study.
+
+
+### Fonctionnement du script
+
+#### Conversion des .vcf en .maf
 
 Le script build_study_data.py utilise le conteneur de vcf2maf dans la fonction use_vcf2maf:
 
@@ -61,7 +88,7 @@ Le script entrypoint.py de vcf2maf rempli les valeurs de la colone TUMOR_BARCODE
 
 #### Fusion des .maf
 
-Le script entrypoint.py de vcf2maf possède une option --merge-maf qu'il faut utiliser pour l'importation dans cBioportal.
+Le script entrypoint.py de vcf2maf possède une option --merge-maf qui est utilisé pour avoir un seul fichier .maf en sortie et permettant ainsi l'importation dans cBioportal.
 
 
 ## Commandes d'importation, suppression et rapport d'importation
@@ -92,7 +119,7 @@ cd /scratch/pmancini
 scp -r {study_name} root@kvm01:/data/dockerbuilds/cbioportal/studies/{study_name}
 ```
 
-Nb: Avant de lancer les commandes de transfert il peut-être important de de vérifier qu'il n'existe
+Nb: Avant de lancer les commandes de transfert il peut être important de vérifier qu'il n'existe
 pas de dossier portant le même que le dossier study courant sur les noeuds k2so car les scp semble 
 le ne pas réaliser d'overwrite en cas d'homonymes. scp n'affiche aucun warning en cas d'homonymes.
 
@@ -168,4 +195,4 @@ Nb: la commande avec --jvm-args ne marche pas : [https://github.com/cBioPortal/c
 
 ### Update d'une study
 
-cBioportal ne possède pas d'option de mise à jour des study. Il faut donc supprimé la study en question pour en importé la nouvelle version mise à jour.
+cBioportal ne possède pas d'option de mise à jour des study. Il faut donc supprimer la study en question puis importer la nouvelle version mise à jour.
