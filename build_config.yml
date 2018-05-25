@@ -20,32 +20,29 @@ case_list:
 
 meta_study:
     # lung: nsclc, colon: coadread
-    type_of_cancer: 'nsclc'
+    type_of_cancer: 'coadread'
     description: ~ 
     name: ~
     short_name: colung
     add_global_case_list: true
 
 meta_samples:
-    # cancer_study_identifier: ne pas décommenter si possible 
     genetic_alteration_type: CLINICAL
     datatype: SAMPLE_ATTRIBUTES
     data_filename: data_samples.txt
 
 meta_patients:
-    # cancer_study_indentifier: ne pas décommenter si possible
     genetic_alteration_type: CLINICAL
     datatype: PATIENT_ATTRIBUTES
     data_filename: data_patients.txt
 
 meta_mutations_extended:
-    # cancer_study_indentifier: ne pas décommenter si possible
     genetic_alteration_type: MUTATION_EXTENDED
     datatype: MAF
     stable_id: mutations
     show_profile_in_analysis_tab: true
     profile_name: Mutations
-    profile_description: Mutation description truc bidul
+    profile_description: Mutation profile
     data_filename: mutations.maf
     swissprot_identifier: name
 
