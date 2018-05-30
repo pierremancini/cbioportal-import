@@ -103,10 +103,12 @@ if __name__ == '__main__':
     # avec le scp qui suit.
     sub_string = 'rm -fr {}'.format(os.path.join(study_path_virtualnode, study_name))
     cmd = ['ssh root@kvm01 \'{}\''.format(sub_string)]
+
     outs, errs = ssh_k2so(cmd, k2so_login)
+    print('Flux deletion virtual node:')
     if errs:
         print(outs)
-        print('Error copy from master node:')
+        print('Error in deletion of old study on virtual node:')
         print(errs)
     else:
         print(outs)
@@ -115,7 +117,6 @@ if __name__ == '__main__':
         'cd {}'.format(study_path_masternode),
         'scp -r {name} root@kvm01:{virtual}{name}'.format(name=study_name, virtual=study_path_virtualnode)
     ]
-
 
     outs, errs = ssh_k2so(cmd, k2so_login)
 
