@@ -75,7 +75,7 @@ L'option --container-name sert à spécifier le nom du conteneur vcf2maf. Par de
 
 Le script build_study_data.py utilise le conteneur de vcf2maf. 
 
-Par default le conteneur utilisé s'appelle vcf2amf mais il est possible de pointer vers on conteneur vcf2maf nommé différement en utilisant l'argument --container-name du script (cf. Usage).
+Par default le conteneur utilisé s'appelle vcf2amf mais il est possible de pointer vers un conteneur vcf2maf nommé différement en utilisant l'argument --container-name du script (cf. Usage).
 
 La commande lancée par le script est:
 
