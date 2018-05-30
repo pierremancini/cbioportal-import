@@ -44,9 +44,9 @@ Exemples: coadread pour colon, nsclc pour lung.
 
 - meta_study: name: correspond au nom de study affiché dans l'interface web.
 
-- Le nom du dossier de study est donné par le fichier de configuration build_config.yml.
+- cancer_study_identifier: sera le nom du dossier de study.
 
-- Pour les champs meta_study, meta_samples, meta_patients et meta_mutations_extended servent à changer le contenu des fichier de meta données de la study.
+- Pour les champs meta_study, meta_samples, meta_patients et meta_mutations_extended servent à changer le contenu des fichiers de meta données de la study.
 Avant de les changer il faut lire la documentation de cbioportal à propos du format des fichiers de la study: [doc](https://cbioportal.readthedocs.io/en/latest/File-Formats.html#clinical-data).
 
 ### Usage
@@ -56,8 +56,11 @@ python3 build_study_data.py --in-dir IN_DIR --out-dir OUT_DIR [-c CONFIG] [--mv]
 ```
 
 Le script créer en sortie le dossier OUT_DIR, composé de trois sous-dossiers:
+
 - no-study: contient les .vcf écartés de la study.
+
 - selected_samples: contient les .vcf selectionnés dans la study.
+
 - Le dossier de study. Nb: Ce dossier devra être transféré dans le conteneur cbioportal pour pouvoir l'importer dans l'instance cBioportal (cf. section Commandes d'importation, suppression et rapport d'importation).
 
 L'option -c permet spécifier le chemin du fichier de configuration. Par défault le fichier build_config.yml situe au même niveau que le script sera utilisé.
@@ -69,10 +72,13 @@ L'option --mv permet de faire un backup de l'ancienne study en cas de conflit de
 
 #### Conversion des .vcf en .maf
 
-Le script build_study_data.py utilise le conteneur de vcf2maf dans la fonction use_vcf2maf:
+Le script build_study_data.py utilise le conteneur de vcf2maf. Par default le conteneur utilisé s'appel vcf2amf mais il est possible de pointer vers on conteneur nommé différement en utilisant l'argument --container-name du script.
+
+La commande lancée par le script est:
+
 
 ```bash
-docker run -it --rm -v {} -v {} vcf2maf --input-vcf {} --output-maf {} --tumor-barcode-map {} -d --merge-maf
+docker run -it --rm -v {} -v {} {container-name} --input-vcf {} --output-maf {} --tumor-barcode-map {} -d --merge-maf
 ```
 
 L'argument après le premier -v `volume_vep_path_local` correspond au chemin local du volume vep.

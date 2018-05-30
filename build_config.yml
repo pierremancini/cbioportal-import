@@ -1,8 +1,8 @@
 # Dossier contenant les vcf.
 vcf_folder_name: vcf
 
-# Sera le dossier de sortie (variable to_import_dir)
-cancer_study_identifier: test_cbio
+# Sera le nom du dossier study
+cancer_study_identifier: nom_study
 
 # Pointe vers un ou plusieur fichier texte
 # exemples:
