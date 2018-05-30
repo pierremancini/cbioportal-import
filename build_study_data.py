@@ -121,7 +121,7 @@ def make_dict_samples(selected_anapath):
     return dict_samples
 
 
-def use_vcf2maf(in_dir, out_dir, vcf_folder_path, tumor_map):
+def use_vcf2maf(in_dir, out_dir, vcf_folder_path, tumor_map, container):
     """ Use vcf2maf container directory given as argument. """
 
     vcf_folder_name = os.path.basename(vcf_folder_path)
@@ -154,9 +154,10 @@ def use_vcf2maf(in_dir, out_dir, vcf_folder_path, tumor_map):
     # Le dossier 'temp_maf_dir', ressemblant les .maf avant merge, est créé dans le volume du conteneur
     vcf2maf_vol = volume_path + ':/data'
 
-    cmd = "docker run -it --rm -v {} -v {} vcf2maf --input-vcf {} --output-maf {}" \
+    cmd = "docker run -it --rm -v {} -v {} {} --input-vcf {} --output-maf {}" \
           " --tumor-barcode-map {} -d --merge-maf".format(vep_vol,
                                                          vcf2maf_vol,
+                                                         container,
                                                          vcf_path,
                                                          maf_path,
                                                          map_path)
@@ -227,6 +228,7 @@ if __name__ == '__main__':
      help="Get a HTML report cbioportal validation in curent directory")
     parser.add_argument("-c", "--config", help="Specify path to config file")
     parser.add_argument('--mv', action='store_true')
+    parser.add_argument('-cn', '--container-name',  default='vcf2maf', help='Name of vcf2maf container launch on the system')
     args = parser.parse_args()
 
     in_dir = args.in_dir  # ex: in_build_study
@@ -274,7 +276,8 @@ if __name__ == '__main__':
     os.mkdir(to_import_dir)
 
     # ~~~~ Partie mutation ~~~~
-    use_vcf2maf(args.out_dir, os.path.join(to_import_dir, 'mutations.maf'), selected_samples_path, tumor_map)
+    use_vcf2maf(args.out_dir, os.path.join(to_import_dir, 'mutations.maf'), selected_samples_path,
+        tumor_map, args.container_name)
     # -> output un .maf dans le dossier à importer: ($to_import_dir/'temp_maf_dir')
 
     # ~~~~ Partie data ~~~~
