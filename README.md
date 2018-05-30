@@ -52,7 +52,7 @@ Avant de les changer il faut lire la documentation de cbioportal à propos du fo
 ### Usage
 
 ```
-python3 build_study_data.py --in-dir IN_DIR --out-dir OUT_DIR [-c CONFIG] [--mv]
+python3 build_study_data.py --in-dir IN_DIR --out-dir OUT_DIR [-c CONFIG] [--mv] [--container-name]
 ```
 
 Le script créer en sortie le dossier OUT_DIR, composé de trois sous-dossiers:
@@ -67,12 +67,15 @@ L'option -c permet spécifier le chemin du fichier de configuration. Par défaul
 
 L'option --mv permet de faire un backup de l'ancienne study en cas de conflit de nom avec la nouvelle study.
 
+L'option --container-name sert à spécifier le nom du conteneur vcf2maf. Par defaut ce nom sera vcf2maf.
 
 ### Fonctionnement du script
 
 #### Conversion des .vcf en .maf
 
-Le script build_study_data.py utilise le conteneur de vcf2maf. Par default le conteneur utilisé s'appel vcf2amf mais il est possible de pointer vers on conteneur nommé différement en utilisant l'argument --container-name du script.
+Le script build_study_data.py utilise le conteneur de vcf2maf. 
+
+Par default le conteneur utilisé s'appelle vcf2amf mais il est possible de pointer vers on conteneur vcf2maf nommé différement en utilisant l'argument --container-name du script (cf. Usage).
 
 La commande lancée par le script est:
 
