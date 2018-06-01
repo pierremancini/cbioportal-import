@@ -52,7 +52,7 @@ Avant de les changer il faut lire la documentation de cbioportal à propos du fo
 ### Usage
 
 ```
-python3 build_study_data.py --in-dir IN_DIR --out-dir OUT_DIR [-c CONFIG] [--mv] [--container-name]
+python3 build_study_data.py --in-dir IN_DIR --out-dir OUT_DIR [-c CONFIG] [--mv] [--image-name]
 ```
 
 Le script créer en sortie le dossier OUT_DIR, composé de trois sous-dossiers:
@@ -67,21 +67,21 @@ L'option -c permet spécifier le chemin du fichier de configuration. Par défaul
 
 L'option --mv permet de faire un backup de l'ancienne study en cas de conflit de nom avec la nouvelle study.
 
-L'option --container-name sert à spécifier le nom du conteneur vcf2maf. Par defaut ce nom sera vcf2maf.
+L'option --image-name sert à spécifier le nom de l'image vcf2maf utilisée par le script. Par defaut ce nom sera vcf2maf.
 
 ### Fonctionnement du script
 
 #### Conversion des .vcf en .maf
 
-Le script build_study_data.py utilise le conteneur de vcf2maf. 
+Le script build_study_data.py utilise une image vcf2maf. 
 
-Par default le conteneur utilisé s'appelle vcf2amf mais il est possible de pointer vers un conteneur vcf2maf nommé différement en utilisant l'argument --container-name du script (cf. Usage).
+Par default l'image s'appelle vcf2amf mais il est possible de pointer vers une image vcf2maf nommé différement en utilisant l'argument --image-name du script (cf. Usage).
 
 La commande lancée par le script est:
 
 
 ```bash
-docker run -it --rm -v {} -v {} {container-name} --input-vcf {} --output-maf {} --tumor-barcode-map {} -d --merge-maf
+docker run -it --rm -v {} -v {} {image-name} --input-vcf {} --output-maf {} --tumor-barcode-map {} -d --merge-maf
 ```
 
 L'argument après le premier -v `volume_vep_path_local` correspond au chemin local du volume vep.
