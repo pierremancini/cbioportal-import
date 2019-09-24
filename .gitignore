@@ -1,0 +1,9 @@
+*.log
+*.pyc
+data
+mydockerbuild/cbio_import/cbioimporter_vol
+mydockerbuild/cbio_import/putcbioimport.txt
+.hgtags
+*.orig
+.hgignore
+reports/

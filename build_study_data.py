@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import os, sys, csv, re, shutil
@@ -39,7 +39,7 @@ def get_studies_samples(studies):
     list_selected_anapath = []
 
     for study_file in studies:
-        with open(study_file, 'rb') as f:
+        with open(study_file, 'r') as f:
             for line in f:
                 anapath = line.replace("\n", '')
                 match_iter = re.finditer(r"-F$", anapath)
@@ -103,13 +103,12 @@ def make_dict_samples(selected_anapath):
 
     with open(os.path.join(in_dir, config['anapath_patient'])) as f:
 
-        # Dans le fichier de configuration de correspondance 'anapath_patient', la 1er colonne 
+        # Dans le fichier de configuration de correspondance 'anapath_patient', la 1er colonne
         # correspond aux n° anapath/sample_id, la 2em colonne correspond aux patient_id
-
 
         reader = csv.reader(f, delimiter=',')
         for line in reader:
-            line[0] = line[0].translate(None, ' ')
+            line[0] = line[0].replace(' ', '')
             # {patient_id: [sample_id]}
             patient_id = line[1]
             sample_id = line[0]
@@ -170,7 +169,7 @@ def use_vcf2maf(in_dir, out_dir, vcf_folder_path, tumor_map, image):
 
 def write_meta_files(to_import_dir, config):
 
-    with open(os.path.join(to_import_dir, 'meta_study.txt'), 'wb') as f:
+    with open(os.path.join(to_import_dir, 'meta_study.txt'), 'w') as f:
         f.write('type_of_cancer: {}\n'.format(config['meta_study']['type_of_cancer']))
         f.write('cancer_study_identifier: {}\n'.format(config['cancer_study_identifier']))
         name = config['meta_study']['name']
@@ -183,19 +182,19 @@ def write_meta_files(to_import_dir, config):
         f.write('add_global_case_list: {}\n'.format(config['meta_study']['add_global_case_list']))
 
     # meta clinical
-    with open(os.path.join(to_import_dir, 'meta_samples.txt'), 'wb') as f:
+    with open(os.path.join(to_import_dir, 'meta_samples.txt'), 'w') as f:
         f.write('cancer_study_identifier: {}\n'.format(config['cancer_study_identifier']))
         f.write('genetic_alteration_type: {}\n'.format(config['meta_samples']['genetic_alteration_type']))
         f.write('datatype: {}\n'.format(config['meta_samples']['datatype']))
         f.write('data_filename: {}\n'.format(config['meta_samples']['data_filename']))
 
-    with open(os.path.join(to_import_dir, 'meta_patients.txt'), 'wb') as f:
+    with open(os.path.join(to_import_dir, 'meta_patients.txt'), 'w') as f:
         f.write('cancer_study_identifier: {}\n'.format(config['cancer_study_identifier']))
         f.write('genetic_alteration_type: {}\n'.format(config['meta_patients']['genetic_alteration_type']))
         f.write('datatype: {}\n'.format(config['meta_patients']['datatype']))
         f.write('data_filename: {}\n'.format(config['meta_patients']['data_filename']))
 
-    with open(os.path.join(to_import_dir, 'meta_mutations_extended.txt'), 'wb') as f:
+    with open(os.path.join(to_import_dir, 'meta_mutations_extended.txt'), 'w') as f:
         f.write('cancer_study_identifier: {}\n'.format(config['cancer_study_identifier']))
         f.write('genetic_alteration_type: {}\n'.format(config['meta_mutations_extended']['genetic_alteration_type']))
         f.write('datatype: {}\n'.format(config['meta_mutations_extended']['datatype']))
@@ -250,7 +249,7 @@ if __name__ == '__main__':
             shutil.move(args.out_dir, backup_path)
         else:
             print('Must remove the previous folder named {} before creating new one.'.format(args.out_dir))
-            move = raw_input('Move {} to {} ? (y/n) '.format(args.out_dir, backup_path))
+            move = input('Move {} to {} ? (y/n) '.format(args.out_dir, backup_path))
             if move == 'y':
                 shutil.move(args.out_dir, backup_path)
             else:
@@ -285,7 +284,7 @@ if __name__ == '__main__':
         os.mkdir(os.path.join(to_import_dir, 'case_lists'))
 
     # On ouvre trois fichiers à la fois
-    with open(os.path.join(to_import_dir, 'data_patients.txt'), 'wb') as fpatients, open(os.path.join(to_import_dir, 'data_samples.txt'), 'wb') as fsamples, open(os.path.join(to_import_dir, 'case_lists', "cases_custom.txt"), 'wb') as fcases:
+    with open(os.path.join(to_import_dir, 'data_patients.txt'), 'w') as fpatients, open(os.path.join(to_import_dir, 'data_samples.txt'), 'w') as fsamples, open(os.path.join(to_import_dir, 'case_lists', "cases_custom.txt"), 'w') as fcases:
 
         en_tete = "#Patient Identifier\tLocalisation\n#Patient Identifier\tLocalisation\n#STRING\tSTRING\n#1\t1\nPATIENT_ID\tLOCALISATION\n"
         fpatients.write(en_tete)

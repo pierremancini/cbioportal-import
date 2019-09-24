@@ -1,0 +1,6 @@
+data/vcf2maf/Dockerfile.i
+data/vcf2maf/entry.py.i
+data/.hgignore.i
+data/vcf2maf/entry_bash.i
+data/README.md.i
+data/vep/Dockerfile.i

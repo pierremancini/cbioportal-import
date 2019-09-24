@@ -2,17 +2,17 @@
 vcf_folder_name: vcf
 
 # Sera le nom du dossier study
-cancer_study_identifier: nom_study
+cancer_study_identifier: 1er_2em_lung
 
 # Pointe vers un ou plusieur fichier texte
 # exemples:
 # colon: NGS colon-lung échantillons COLONS_anapath.txt
 # lung: NGS colon-lung échantillons POUMONS_anapath.txt
 study:
-    - data/test/list_anapath.txt
+    - data/1er_2em_correct/list_anapath_poumon.txt
 
 # Dépendance du script
-anapath_patient: corresp_patientid_anapath09-11-17.csv
+anapath_patient: corresp_patientid_anapath_anonymisation.csv
 
 case_list:
     name: nom de case liste
@@ -20,7 +20,7 @@ case_list:
 
 meta_study:
     # lung: nsclc, colon: coadread
-    type_of_cancer: 'coadread'
+    type_of_cancer: 'nsclc'
     description: ~ 
     name: ~
     short_name: colung

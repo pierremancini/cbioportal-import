@@ -1,0 +1,77 @@
+# HG changeset patch
+# User shelve@localhost
+# Date 1522763212 -7200
+#      Tue Apr 03 15:46:52 2018 +0200
+# Node ID a39f9efa4e77882cb55ce476a71fab82f9888494
+# Parent  f52a554e5d99221b4006e858b33f083dbd94ab57
+changes to: Mise à jour de la doc en fonction des nouveau nom des options du script.
+
+diff --git a/vcf2maf/entry.py b/vcf2maf/entry.py
+--- a/vcf2maf/entry.py
++++ b/vcf2maf/entry.py
+@@ -24,7 +24,21 @@
+     if tumor_barcode:
+         cmd = cmd + ' --tumor-id {}'.format(tumor_barcode)
+ 
+-    return cmd.format(vep_dir, shlex.quote(input_path), shlex.quote(output_path))
++    # La commande perl ne semble pas lire correctement les espaces même en utilisant shlex.quote()
++    # au préalable.
++
++    if ' ' in input_path:
++        print('Notice: {} contient un espace; renomage du fichier temporaire: \' \' -> _'.format(input_path))
++        output_path_no_space = output_path.replace(' ', '_')
++        input_path_no_space = input_path.replace(' ', '_')
++        os.rename(input_path, input_path_no_space)
++
++    else:
++        output_path_no_space = output_path
++        input_path_no_space = input_path
++
++
++    return cmd.format(vep_dir, shlex.quote(input_path_no_space), shlex.quote(output_path_no_space))
+ 
+ 
+ def call_perl(cmd):
+@@ -33,7 +47,8 @@
+     print('\x1b[1;34;40m call perl script \x1b[0m')
+ 
+     args = shlex.split(cmd)
+-    process = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
++    print(args)
++    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+         universal_newlines=True, shell=False)
+     stdout, stderr = process.communicate()
+     print(stderr)
+@@ -46,6 +61,8 @@
+         La function doit marcher avec tout les csv contenant un header
+     """
+     liste_file_name = os.listdir(in_dir)
++    print('Dans temp_maf_dir (normalement):')
++    print(list_file_name)
+ 
+     headers = []
+     lines = []
+@@ -120,6 +137,7 @@
+ 
+     # Si on convertit tout un dossier
+     if args.d:
++        print('\x1b[1;34;40m Dans args.d \x1b[0m')
+         if args.tumor_barcode_map:
+             tumor_barcode_s = map_tumor_barcode(args.tumor_barcode_map)
+         else:
+@@ -134,6 +152,7 @@
+         #   Si --merge-maf n'est pas choisi out_maf_folder désigne le chemin du dossier
+         #   contenant les fichiers .maf une fois l'application terminée
+         if args.merge_maf:
++            print('\x1b[1;34;40m Dans args.merge_maf \x1b[0m')
+             if not os.path.exists(os.path.join(os.sep, 'data', 'temp_maf_dir')):
+                 os.mkdir(os.path.join(os.sep, 'data', 'temp_maf_dir'))
+                 os.chmod(os.path.join(os.sep, 'data', 'temp_maf_dir'), 0o777)
+@@ -150,6 +169,7 @@
+                     os.chmod(args.output_maf, 0o777)
+                 out_maf_folder = args.output_maf
+     else:
++        print('\x1b[1;34;40m Else args.d \x1b[0m')
+         if args.output_maf is None:
+             list_file_name = [os.path.splitext(args.input_vcf)]
+         else:

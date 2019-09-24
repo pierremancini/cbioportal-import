@@ -1,0 +1,15 @@
+# On déplace les fichiers meta_study des study à supprimer sur le serveur ovh puis dans le conteneur:
+
+scp ~/Bureau/out_build_study/lung_study/meta_study.txt transmart@176.31.103.20:~/dockerbuilds/cbioportal/studies/lung_meta_study.txt
+scp ~/Bureau/out_build_study/colon_study/meta_study.txt transmart@176.31.103.20:~/dockerbuilds/cbioportal/studies/colon_meta_study.txt
+
+docker cp -r ~/dockerbuilds/cbioportal/studies/ official_cbioportal:/cbioportal/studies/
+
+# Mauvaise commande: il ne faut pas utiliser l'argument --jvm--args
+# ./core/src/main/scripts/importer/cbioportalImporter.py --jvm-args "-Dspring.profiles.active=dbcp -cp ./core/target/core-1.0-SNAPSHOT.jar" --command remove-study --meta_filename ./studies/lung_meta_study.txt
+
+./cbioportal/core/src/main/scripts/importer/cbioportalImporter.py --command remove-study --meta_filename /cbio_studies/lung_study_listes/meta_study.txt
+
+# Retour à ovh transmart
+docker stop cbioportal 
+docker start cbioportal 

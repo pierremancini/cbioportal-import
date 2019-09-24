@@ -1,0 +1,49 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+/!\ Quand on réimporte une study il faut supprimer l'ancienne study
+ portant le même nom sur k2so et dans le conteneur car elle ne sera 
+ pas écrasée.
+ 
+ Il semble que scp ne fait pas d'ovewrite
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Pour importer les studies:
+
+1. on copier la study de local -> scratch du noeud maitre de k2so
+scp -r colon_study_listes/ root@129.10.28.20:/scratch/pmancini/colon_study_listes
+
+1. bis. on va sur le noeud maitre
+
+ssh root@129.10.28.20
+(mot de pass)
+
+2. on copie (scp -r) scratch(noeudmaitre) 
+-> (noeud de virtualisation)/data/dockerbuilds/cbioportal/studies
+
+cd /scratch/pmancini
+scp -r colon_study_listes root@kvm01:/data/dockerbuilds/cbioportal/studies/colon_study_listes
+
+2. bis. on va sur le noeud de virtualisation
+
+ssh kvm01
+
+3. docker exec -it cbioportal /bin/bash
+
+4. On est dans le conteneur: cd /
+
+5. validation:
+./cbioportal/core/src/main/scripts/importer/validateData.py -s cbio_studies/colon_study100 -u http://localhost:8080/cbioportal -v
+
+
+importation:
+
+# Les study sont temporairement sur /data/dockerbuilds/cbioportal/studies/
+# Les report sont temporairement sur /scratch/pmancini/cbioportal/report/
+
+./cbioportal/core/src/main/scripts/importer/metaImport.py -s /cbio_studies/lung_study_listes/ -o -u http://localhost:8080/cbioportal -v -html /scratch/pmancini/cbioportal/reports/myReportlunglistes.html
+
+6. 
+
+docker stop cbioportal
+docker start cbioportal
